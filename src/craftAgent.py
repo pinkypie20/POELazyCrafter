@@ -4,6 +4,33 @@ import pyperclip
 import time
 import json
 
+import logging
+import os
+
+def setup_logging(log_file):
+    # Create logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    # Create file handler
+    if os.path.exists(log_file):
+        file_mode = 'a'  # Append if file already exists
+    else:
+        file_mode = 'w'  # Create a new file if it doesn't exist
+    file_handler = logging.FileHandler(log_file, mode=file_mode)
+    
+    # Create formatter
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+
+    # Add file handler to logger
+    logger.addHandler(file_handler)
+
+    return logger
+
+logger = setup_logging("./log/craftAgent.log")
+logger.info("##### Start craft map #####")
+
 with open('./config/mapcraftrunning.json', 'r') as f:
     json_data = f.read()
     mapCraftDict = json.loads(json_data)
@@ -42,6 +69,7 @@ def checkMapMod(map_mod):
                 if k.lower() in mapModLine.lower():
                     match_count+=1
             if match_count == len(ban_mod_split):
+                logger.info("Match avoid : "+str(ban_mod))
                 return False
     return True
 current_mouse_position = pyautogui.position()
@@ -76,12 +104,17 @@ while stop_flg:
         Quantity = int(map_mod.split("Item Quantity: +")[1].split("%")[0])
     if packSize >= PackSizeTarget:
         cond_count+=1
+    else:
+        logger.info("Monster pack size not pass : "+str(packSize)+" < "+str(PackSizeTarget))
     if Quantity >= QuantityTarget:
         cond_count+=1
+    else:
+        logger.info("Quantity not pass : "+str(Quantity)+" < "+str(QuantityTarget))
     if checkMapMod(map_mod):
         cond_count+=1
     if cond_count == 3:
         stop_flg = False
+        logger.info("##### Finish craft map #####")
         print('\a')
     else :
         usingOrb(Scouring_pos,current_mouse_position)
