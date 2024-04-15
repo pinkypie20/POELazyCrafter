@@ -1,0 +1,5 @@
+Players cannot Regenerate Life, Mana or Energy Shield
+effect of Non-Curse Auras from Skills
+less Recovery Rate of Life and Energy Shield
+less Cooldown Recovery Rate
+desecrated ground

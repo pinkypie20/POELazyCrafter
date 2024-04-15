@@ -1,0 +1,2 @@
+# POELazyCrafter
+ POE Automate Craft
