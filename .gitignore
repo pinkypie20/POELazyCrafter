@@ -1,3 +1,6 @@
 
 *.pyc
 /env
+/config/*.json
+/config/user/*.json
+/log/*.log
