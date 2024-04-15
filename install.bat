@@ -1,5 +1,5 @@
 del .\config\user\.gitkeep
-del .\config\log\.gitkeep
+del .\log\.gitkeep
 pip install -r requirements.txt
 python -m venv env
 call .\env\Scripts\activate.bat
